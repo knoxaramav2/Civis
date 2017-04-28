@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 0c0ee449bbb2b4846a13dd04619dedfa
+timeCreated: 1486840540
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Psiphoon BB
+  fontNames:
+  - Psiphoon BB
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
