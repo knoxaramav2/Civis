@@ -2,15 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Session : MonoBehaviour {
+public class Session : MonoBehaviour
+{
+    public bool IsNewGame;
 
 	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+	void Start ()
+	{
+	    IsNewGame = false;
 	}
 }

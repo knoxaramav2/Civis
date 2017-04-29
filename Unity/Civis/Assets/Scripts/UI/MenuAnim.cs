@@ -7,7 +7,7 @@ public class MenuAnim : MonoBehaviour
 {
     private List<GameObject> _panels;
     private GameObject _current;
-
+    
 	// Use this for initialization
 	void Start ()
 	{
