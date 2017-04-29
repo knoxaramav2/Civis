@@ -19,8 +19,7 @@ public class Startup : MonoBehaviour
 	    state = new GameObject("Session") { tag = "TempState" };
 	    state.AddComponent<Session>();
 	    DontDestroyOnLoad(state);
-
-    }
+	}
 
     public void StartNewGame()
     {

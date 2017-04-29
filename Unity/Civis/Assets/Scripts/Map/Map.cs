@@ -4,34 +4,103 @@ using UnityEngine;
 
 public class Map : MonoBehaviour
 {
+    private GameObject _dataShuttle;
+    private Map _map;
+    private Session _session;
+
     private Cell[][][] _matrix;
 
-    //dimensions
-    private int _width, _height, _depth;
+    public int[][] HeightMap;
 
-    public Map(int width, int length, int height)
+    //dimensions
+    public int Width, Length, Height;
+
+    public void Start()
     {
+        _dataShuttle = GameObject.FindGameObjectWithTag("TempState");
+        _map = _dataShuttle.GetComponent<Map>();
+        _session = _dataShuttle.GetComponent<Session>();
+
+        Width = _session.MapWidth;
+        Height = _session.MapHeight;
+        Length = _session.MapLength; 
+
         //initialize map memory
-        _matrix = new Cell[width][][];
-        for (var x = 0; x < width; ++x)
+        _matrix = new Cell[Width][][];
+        for (var x = 0; x < Width; ++x)
         {
-            _matrix[x] = new Cell[length][];
-            for (var y = 0; y < height; ++y)
-                _matrix[x][y] = new Cell[height];
+            _matrix[x] = new Cell[Length][];
+            for (var y = 0; y < Length; ++y)
+            {
+                _matrix[x][y] = new Cell[Height];
+                for (var z = 0; z < Height; ++z)
+                {
+                    _matrix[x][y][z] = new Cell(x,y,z);
+                }
+            }
         }
+    }
+
+    public void AddTile(Tile t)
+    {
+        Debug.Log(t.Z);
+        _matrix[t.X][t.Y][1].Target = t;
+    }
+
+    public int GetColumnHeight(int x, int y)
+    {
+        return HeightMap[x][y];
+    }
+
+    public Tile GetTopTile(int x, int y)
+    {
+        return _matrix[x][y][GetColumnHeight(x, y) - 1].Target;
+    }
+
+    public Cell GetTopCell(int x, int y)
+    {
+        return _matrix[x][y][GetColumnHeight(x, y) - 1];
+    }
+
+    public List <Cell> GetAdjacentCells(Tile tile)
+    {
+        return GetAdjacentCells(tile.X, tile.Y);
+    }
+
+    public List<Cell> GetAdjacentCells(int x, int y)
+    {
+        var list = new List<Cell>();
+
+        var ctl = Tile.GetAdjacentCoord(x, y, Tile.Edge.TopLeft);
+        var ctr = Tile.GetAdjacentCoord(x, y, Tile.Edge.TopRight);
+        var cl = Tile.GetAdjacentCoord(x, y, Tile.Edge.Left);
+        var cr = Tile.GetAdjacentCoord(x, y, Tile.Edge.Right);
+        var cbl = Tile.GetAdjacentCoord(x, y, Tile.Edge.BottomLeft);
+        var cbr = Tile.GetAdjacentCoord(x, y, Tile.Edge.BottomRight);
+
+        if (ctl != null) list.Add(GetTopCell(ctl[0], ctl[1]));
+        if (ctr != null) list.Add(GetTopCell(ctr[0], ctr[1]));
+        if (cl != null) list.Add(GetTopCell(cl[0], cl[1]));
+        if (cr != null) list.Add(GetTopCell(cr[0], cr[1]));
+        if (cbl != null) list.Add(GetTopCell(cbl[0], cbl[1]));
+        if (cbr != null) list.Add(GetTopCell(cbr[0], cbr[1]));
+
+        return list;
     }
 }
 
 public class Cell
 {
-    public List<Entity> Occupants;
+    public Tile Target;
 
-    private int _x, _y, _z;
+    public int X, Y, Z;
 
     public Cell(int x, int y, int z)
     {
-        _x = x;
-        _y = y;
-        _z = z;
+        X = x;
+        Y = y;
+        Z = z;
+
+        Target = null;
     }
 }

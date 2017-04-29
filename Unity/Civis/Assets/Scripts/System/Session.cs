@@ -13,6 +13,9 @@ public class Session : MonoBehaviour
     public int MapAiDifficulty;
     public string Seed;
 
+    public Tile.Terrain[][] TerrainMap;
+    public int[][] HeightMap;
+
 	// Use this for initialization
 	void Start ()
 	{
