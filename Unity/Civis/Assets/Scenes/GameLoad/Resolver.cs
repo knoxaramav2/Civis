@@ -24,7 +24,7 @@ public class Resolver : MonoBehaviour
 	    if (_session.IsNewGame)
 	    {
 	        _text.text = "Creating New Game";
-	        GenerateNewGameInfo();
+	        StartCoroutine(GenerateNewGameInfo());
 	    }
 	    else
 	    {
@@ -34,11 +34,11 @@ public class Resolver : MonoBehaviour
 	        
         AssembleMapData();
 
-
+        Debug.Log("Switching to game map");
         SceneManager.LoadScene("Field");
 	}
 
-    void GenerateNewGameInfo()
+    IEnumerator GenerateNewGameInfo()
     {
         _text.text = "Calculating Map";
 
@@ -55,17 +55,7 @@ public class Resolver : MonoBehaviour
         _map.HeightMap = _session.HeightMap;
 
         var heightCounter = 0.001f;
-        var textureCounter = 0.001f;
-
-        //for (var x = 0; x < _session.MapWidth; ++x)
-        //    for (var y = 0; y < _session.MapLength; ++y)
-        //    {
-        //        var xpos = counter + ((float)x /_session.MapWidth);
-        //        var ypos = counter + ((float)y / _session.MapLength);
-
-        //        _session.HeightMap[x][y] = (int)((Mathf.PerlinNoise(xpos, ypos)) * (2f + _session.Amplitude))+1;         
-        //        counter += .08f;
-        //    }               
+        var textureCounter = 0.001f;        
 
         for (var x = 0; x < _session.MapWidth; ++x)
             for (var y = 0; y < _session.MapLength; ++y)
@@ -81,8 +71,8 @@ public class Resolver : MonoBehaviour
 
                 _session.HeightMap[x][y] = (int)((Mathf.PerlinNoise(xpos, ypos)) * (2f + _session.Amplitude)) + 1;
 
-                heightCounter += .005f;
-                textureCounter += 0.08f;
+                heightCounter += _session.HeightComplexity;
+                textureCounter += _session.TerrainComplexity;
             }
 
         for (var i = 0; i < _session.Smoothing; ++i)
@@ -97,7 +87,8 @@ public class Resolver : MonoBehaviour
                     _map.HeightMap[x][y] = (int)Mathf.Ceil(avg);
                 }
         }
-            
+
+        yield return new WaitForSeconds(2f);
     }
 
     void LoadGameInfo()

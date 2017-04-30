@@ -15,12 +15,18 @@ public class Session : MonoBehaviour
     public float Amplitude;
     public float Smoothing;
 
+    public float HeightComplexity;
+    public float TerrainComplexity;
+
     public Tile.Terrain[][] TerrainMap;
     public int[][] HeightMap;
 
 	// Use this for initialization
 	void Start ()
 	{
+	    HeightComplexity = 0.055f;
+	    TerrainComplexity = 0.055f;
+
 	    IsNewGame = false;
 	}
 }

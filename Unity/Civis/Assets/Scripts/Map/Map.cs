@@ -16,8 +16,6 @@ public class Map : MonoBehaviour
 
     public void Init()
     {
-        Debug.Log("asdasdasdasd");
-
         _dataShuttle = GameObject.FindGameObjectWithTag("TempState");
         _session = _dataShuttle.GetComponent<Session>();
 
@@ -39,8 +37,6 @@ public class Map : MonoBehaviour
                 }
             }
         }
-
-        Debug.Log(_matrix);
     }
 
     public void AddTile(Tile t)
@@ -50,7 +46,6 @@ public class Map : MonoBehaviour
 
     public int GetColumnHeight(int x, int y)
     {
-        Debug.Log(HeightMap);
         return HeightMap[x][y];
     }
 
@@ -61,7 +56,6 @@ public class Map : MonoBehaviour
 
     public Cell GetTopCell(int x, int y)
     {
-        Debug.Log(_matrix);
         return _matrix[x][y][GetColumnHeight(x, y) - 1];
     }
 

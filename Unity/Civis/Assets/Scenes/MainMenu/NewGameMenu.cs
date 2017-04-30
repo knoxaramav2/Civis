@@ -46,8 +46,7 @@ public class NewGameMenu : MonoBehaviour
         _session.Smoothing = Smoothing.value;
 
         _session.Seed = Seed.text;
-        
-      
+
         _startup.StartGame();
     }
 

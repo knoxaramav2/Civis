@@ -28,6 +28,7 @@ public class Startup : MonoBehaviour
 
     public void StartGame()
     {
+        Debug.Log("Switched to load scene");
         SceneManager.LoadScene("GameLoad");
     }
 }
