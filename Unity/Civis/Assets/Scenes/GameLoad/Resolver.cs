@@ -16,8 +16,10 @@ public class Resolver : MonoBehaviour
 	void Start () {
 	    _dataShuttle = GameObject.FindGameObjectWithTag("TempState");
 	    _session = _dataShuttle.GetComponent<Session>();
-	    _map = _dataShuttle.GetComponent <Map>();
+	    _map = _dataShuttle.AddComponent<Map>();
 	    _text = GameObject.Find("WaitText").GetComponent<Text>();
+
+        _map.Init();
 
 	    if (_session.IsNewGame)
 	    {
@@ -52,28 +54,35 @@ public class Resolver : MonoBehaviour
 
         _map.HeightMap = _session.HeightMap;
 
-        var counter = 0.001f;
+        var heightCounter = 0.001f;
+        var textureCounter = 0.001f;
+
+        //for (var x = 0; x < _session.MapWidth; ++x)
+        //    for (var y = 0; y < _session.MapLength; ++y)
+        //    {
+        //        var xpos = counter + ((float)x /_session.MapWidth);
+        //        var ypos = counter + ((float)y / _session.MapLength);
+
+        //        _session.HeightMap[x][y] = (int)((Mathf.PerlinNoise(xpos, ypos)) * (2f + _session.Amplitude))+1;         
+        //        counter += .08f;
+        //    }               
 
         for (var x = 0; x < _session.MapWidth; ++x)
             for (var y = 0; y < _session.MapLength; ++y)
             {
-                float xpos = counter + (x/_session.MapWidth);
-                float ypos = counter + (x / _session.MapLength);
-
-                _session.HeightMap[x][y] = (int)((Mathf.PerlinNoise(xpos, xpos)) * (2f + _session.Amplitude))+1;         
-                counter += .1f;
-            }               
-
-        for (var x = 0; x < _session.MapWidth; ++x)
-            for (var y = 0; y < _session.MapLength; ++y)
-            {
-                var xpos = counter + (x / _session.MapWidth);
-                var ypos = counter + (x / _session.MapLength);
+                var xpos = heightCounter + ((float)x / _session.MapWidth);
+                var ypos = heightCounter + ((float)y / _session.MapLength);
 
                 _session.TerrainMap[x][y] = (Tile.Terrain)((int)
-                        Mathf.Ceil((Mathf.PerlinNoise(xpos, xpos) * 3.99f)));
+                        Mathf.Ceil((Mathf.PerlinNoise(xpos, ypos) * 3.99f)));
 
-                counter += .08f;
+                xpos = textureCounter + ((float)x / _session.MapWidth);
+                ypos = textureCounter + ((float)y / _session.MapLength);
+
+                _session.HeightMap[x][y] = (int)((Mathf.PerlinNoise(xpos, ypos)) * (2f + _session.Amplitude)) + 1;
+
+                heightCounter += .005f;
+                textureCounter += 0.08f;
             }
 
         for (var i = 0; i < _session.Smoothing; ++i)

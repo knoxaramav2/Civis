@@ -43,7 +43,7 @@ public class NewGameMenu : MonoBehaviour
         _session.MapAi = (int)Ai.value;
         _session.MapAiDifficulty = Difficulty.value;
         _session.Amplitude = Amplitude.value;
-        _session.Smoothing = Amplitude.value;
+        _session.Smoothing = Smoothing.value;
 
         _session.Seed = Seed.text;
         

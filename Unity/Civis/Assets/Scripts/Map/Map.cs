@@ -14,7 +14,7 @@ public class Map : MonoBehaviour
     //dimensions
     public int Width, Length, Height;
 
-    void Start()
+    public void Init()
     {
         Debug.Log("asdasdasdasd");
 
