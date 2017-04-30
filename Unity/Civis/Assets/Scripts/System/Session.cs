@@ -12,6 +12,8 @@ public class Session : MonoBehaviour
     public int MapAi;
     public int MapAiDifficulty;
     public string Seed;
+    public float Amplitude;
+    public float Smoothing;
 
     public Tile.Terrain[][] TerrainMap;
     public int[][] HeightMap;

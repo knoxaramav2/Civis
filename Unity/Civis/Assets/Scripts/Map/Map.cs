@@ -1,13 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Map : MonoBehaviour
 {
     private GameObject _dataShuttle;
-    private Map _map;
     private Session _session;
-
     private Cell[][][] _matrix;
 
     public int[][] HeightMap;
@@ -15,10 +14,11 @@ public class Map : MonoBehaviour
     //dimensions
     public int Width, Length, Height;
 
-    public void Start()
+    void Start()
     {
+        Debug.Log("asdasdasdasd");
+
         _dataShuttle = GameObject.FindGameObjectWithTag("TempState");
-        _map = _dataShuttle.GetComponent<Map>();
         _session = _dataShuttle.GetComponent<Session>();
 
         Width = _session.MapWidth;
@@ -39,16 +39,18 @@ public class Map : MonoBehaviour
                 }
             }
         }
+
+        Debug.Log(_matrix);
     }
 
     public void AddTile(Tile t)
     {
-        Debug.Log(t.Z);
         _matrix[t.X][t.Y][1].Target = t;
     }
 
     public int GetColumnHeight(int x, int y)
     {
+        Debug.Log(HeightMap);
         return HeightMap[x][y];
     }
 
@@ -59,6 +61,7 @@ public class Map : MonoBehaviour
 
     public Cell GetTopCell(int x, int y)
     {
+        Debug.Log(_matrix);
         return _matrix[x][y][GetColumnHeight(x, y) - 1];
     }
 
@@ -86,6 +89,15 @@ public class Map : MonoBehaviour
         if (cbr != null) list.Add(GetTopCell(cbr[0], cbr[1]));
 
         return list;
+    }
+
+    public float GetAverageHeight(int x, int y)
+    {
+        var cells = GetAdjacentCells(x, y);
+
+        var avg = cells.Aggregate<Cell, float>(0, (current, cell) => current + cell.Z);
+
+        return avg / cells.Count;
     }
 }
 

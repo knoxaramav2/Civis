@@ -11,6 +11,7 @@ public class NewGameMenu : MonoBehaviour
     public Dropdown Preset;
     public InputField MapWidth, MapLength, MapHeight;
     public Dropdown RscDensity;
+    public Slider Amplitude, Smoothing;
     public Slider Ai;
     public Dropdown Difficulty;
     public InputField Seed;
@@ -41,6 +42,8 @@ public class NewGameMenu : MonoBehaviour
         _session.MapRscDensity = RscDensity.value;
         _session.MapAi = (int)Ai.value;
         _session.MapAiDifficulty = Difficulty.value;
+        _session.Amplitude = Amplitude.value;
+        _session.Smoothing = Amplitude.value;
 
         _session.Seed = Seed.text;
         
