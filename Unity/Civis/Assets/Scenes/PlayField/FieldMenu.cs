@@ -6,33 +6,46 @@ using UnityEngine.UI;
 
 public class FieldMenu : MonoBehaviour
 {
-    public GameObject DropMenu;
+    public GameObject MenuPanel;
     public GameObject Indicator;
+    public GameObject ViewMenu;
 
 	// Use this for initialization
 	void Start () {
-		
+		ViewMenu.SetActive(false);
+        MenuPanel.SetActive(false);
 	}
 
     //Menu Options
     public void OpenDropMenu()
     {
-        DropMenu.SetActive(true);
+        MenuPanel.SetActive(true);
     }
 
     public void CloseDropMenu()
     {
-        DropMenu.SetActive(false);
+        MenuPanel.SetActive(false);
     }
 
     public void ToggleMenu()
     {
-        if (DropMenu.activeSelf)
-            CloseDropMenu();
-        else
-            OpenDropMenu();
+        MenuPanel.SetActive(!MenuPanel.activeSelf);
     }
 
+    public void OpenViewMenu()
+    {
+        ViewMenu.SetActive(true);
+    }
+
+    public void CloseViewMenu()
+    {
+        ViewMenu.SetActive(false);
+    }
+
+    public void ToggleViewMenu()
+    {
+        ViewMenu.SetActive(!ViewMenu.activeSelf);
+    }
 
     //Quit Options
     public void QuitToDesktop()
