@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Building : Entity {
+public class BuildingManager : MonoBehaviour {
+
+
 
 	// Use this for initialization
 	void Start () {

@@ -5,14 +5,16 @@ using UnityEngine;
 public class Entity : MonoBehaviour
 {
     public string Name;
+    public string Id;
     public float Health, MaxHealth;
 
-    public Tile Location;
+    public Cell Location;
     public Player Owner;
 
     public void Destroy()
     {
-        
+        Location.Target.DecoupleEntity(this);
+        Destroy(this);
     }
 
 }

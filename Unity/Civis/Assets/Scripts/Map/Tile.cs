@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Mime;
 using UnityEngine;
 
@@ -10,6 +11,31 @@ public class Tile : MonoBehaviour
     public static float XOffset = 1.73205f;
     public static float YOffset = 1.5f;
     public static float ZOffset = 1f;
+
+    public List<Entity> Occupants;
+
+    public Tile()
+    {
+        Occupants = new List<Entity>();
+    }
+
+    public void CoupleEntity(Entity e)
+    {
+        if (Occupants.Any(entity => e == entity))
+        {
+            return;
+        }
+
+        Occupants.Add(e);
+    }
+
+    public void DecoupleEntity(Entity e)
+    {
+        var entity = Occupants.FirstOrDefault(o => o == e);
+
+        if (entity == false) return;
+        Occupants.Remove(e);
+    }
 
     public static void Init(int col, int row)
     {

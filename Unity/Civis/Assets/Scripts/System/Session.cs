@@ -21,9 +21,14 @@ public class Session : MonoBehaviour
     public Tile.Terrain[][] TerrainMap;
     public int[][] HeightMap;
 
+    //Game state
+    public List<Player> Players;
+
 	// Use this for initialization
 	void Start ()
 	{
+        Players = new List<Player>();
+
 	    HeightComplexity = 0.055f;
 	    TerrainComplexity = 0.055f;
 

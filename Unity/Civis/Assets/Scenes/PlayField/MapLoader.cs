@@ -13,20 +13,23 @@ public class MapLoader : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-	    _dataShuttle = GameObject.FindGameObjectWithTag("TempState");
+        _dataShuttle = GameObject.FindGameObjectWithTag("TempState");
 	    _map = _dataShuttle.GetComponent<Map>();
 	    _session = _dataShuttle.GetComponent<Session>();
 	    _map.HeightMap = _session.HeightMap;
 
         _tileFactory = GetComponent<TileFactory>();
 
-	    Tile.Init(_map.Width, _map.Length);
+	    Random.InitState(_session.Seed.GetHashCode());
+
+        Tile.Init(_map.Width, _map.Length);
 
         LoadFromMeta();
 	}
 
     public void LoadFromMeta()
     {
+        //generate base map
         for (var x = 0; x < _map.Width; ++x)
         {
             for (var y = 0; y < _map.Length; ++y)
@@ -46,5 +49,7 @@ public class MapLoader : MonoBehaviour
                 }
             }
         }
+
+        //read manifest
     }
 }
