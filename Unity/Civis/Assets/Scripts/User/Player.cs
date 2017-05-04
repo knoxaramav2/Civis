@@ -8,6 +8,8 @@ public class Player : MonoBehaviour
     public string UserName;
     public string UserId;
 
+    public bool IsHost;
+
     public Race.Type Team;
 
     public ResourceCounter RscCounter;
@@ -16,6 +18,8 @@ public class Player : MonoBehaviour
 	// Use this for initialization
 	void Start () {
 		Pieces = new List<Entity>();
+
+	    IsHost = false;
 	}
 	
 }

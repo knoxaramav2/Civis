@@ -106,9 +106,10 @@ public class Tile : MonoBehaviour
 
     public enum Terrain
     {
-        Grass,
+        
         Desert,
         Dirt,
+        Grass,
         Ice
     }
 
