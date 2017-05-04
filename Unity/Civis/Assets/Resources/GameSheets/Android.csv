@@ -1,0 +1,8 @@
+#unit info	health	attack	defense	cost	move	stamina	healrate							
+vanguard	80	50	50	5 iron	1	50	2							
+#buffs														
+buffcold	0.5	buffheat	0.5	buffpoison	0	buffwater	1.5	bufffire	1.5					
+#attacks	power	type	range	cost	…									
+railgun	10	normal	2	10	missile	20	normal	5	20	stomp	15	normal	1	5
+														
+#unit info	health	attack	defense	cost	move	stamina	healrate							

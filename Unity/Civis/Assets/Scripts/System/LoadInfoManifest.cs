@@ -1,14 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class LoadInfoManifest : MonoBehaviour
 {
     private LinkedList<Order> _orders;
+    private int _index;
 
     public LoadInfoManifest()
     {
         _orders = new LinkedList<Order>();
+        _index = 0;
     }
 
     //create order manifest from string
@@ -27,6 +30,16 @@ public class LoadInfoManifest : MonoBehaviour
     {
         //_orders.Add(order);
         _orders.AddLast(order);
+    }
+
+    public Order GetNextOrder()
+    {
+        return _index == _orders.Count ? null : _orders.ElementAt(_index++);
+    }
+
+    public void Rewind()
+    {
+        _index = 0;
     }
 }
 
