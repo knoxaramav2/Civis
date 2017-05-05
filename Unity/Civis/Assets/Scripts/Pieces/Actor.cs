@@ -61,8 +61,6 @@ public class Actor : Entity
 {
     private PlayerSheet _sheet;
 
-    public int Health;
-
     public int Exp;
     public int Level;
     public int LevelUpExp;
