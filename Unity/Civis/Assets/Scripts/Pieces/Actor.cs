@@ -45,19 +45,31 @@ public class Attack
     private string name;
 }
 
-public class Actor : Entity
+public class PlayerSheet
 {
     public List<Buff> Buffs;
     public List<Attack> Attacks;
+
+    public PlayerSheet()
+    {
+        Buffs = new List<Buff>();
+        Attacks = new List<Attack>();
+    }
+}
+
+public class Actor : Entity
+{
+    private PlayerSheet _sheet;
+
+    public int Health;
 
     public int Exp;
     public int Level;
     public int LevelUpExp;
 
-    public Actor()
+    public Actor(PlayerSheet sheet)
     {
-        Buffs = new List<Buff>();
-        Attacks = new List<Attack>();
+        _sheet = sheet;
     }
 
 }

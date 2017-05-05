@@ -85,6 +85,7 @@ public class NewGame
 
     private void GenerateNewPlayers()
     {
+        Debug.Log("Initializing players");
         //add local player
         _session.Players.Add(
             new Player()
@@ -118,6 +119,7 @@ public class NewGame
 
     private void InitPlayerAssets(Player p)
     {
+        Debug.Log("Creating new player manifest");
         //create user manifest
         var locOrder = new Order()
         {

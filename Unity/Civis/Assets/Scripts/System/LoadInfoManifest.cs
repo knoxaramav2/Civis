@@ -41,6 +41,11 @@ public class LoadInfoManifest : MonoBehaviour
     {
         _index = 0;
     }
+
+    public int Count()
+    {
+        return _orders.Count;
+    }
 }
 
 public class Order

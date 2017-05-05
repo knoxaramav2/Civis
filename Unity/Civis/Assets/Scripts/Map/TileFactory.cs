@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class TileFactory : MonoBehaviour
 {
+    private Map _map;
+
     private static GameObject _tile;
 
     private static Material _grass;
@@ -14,6 +16,8 @@ public class TileFactory : MonoBehaviour
 
     void Start()
     {
+        _map = GameObject.FindGameObjectWithTag("TempState").GetComponent<Map>();
+
         _tile = Resources.Load("Models/TilePref") as GameObject;
 
         _grass = Resources.Load(
@@ -56,6 +60,7 @@ public class TileFactory : MonoBehaviour
         }
 
         tile.MoveTo(x, y, z);
+        _map.AddTile(tile);
 
         tile.GetComponent<Renderer>().material = material;
 

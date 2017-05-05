@@ -41,7 +41,7 @@ public class Map : MonoBehaviour
 
     public void AddTile(Tile t)
     {
-        _matrix[t.X][t.Y][1].Target = t;
+        _matrix[t.X][t.Y][t.Z].Target = t;
     }
 
     public int GetColumnHeight(int x, int y)
@@ -56,7 +56,7 @@ public class Map : MonoBehaviour
 
     public Cell GetTopCell(int x, int y)
     {
-        return _matrix[x][y][GetColumnHeight(x, y) - 1];
+        return _matrix[x][y][GetColumnHeight(x, y)];
     }
 
     public List <Cell> GetAdjacentCells(Tile tile)

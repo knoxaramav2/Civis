@@ -17,7 +17,7 @@ public class Player
     public List<Entity> Pieces;
 
 	// Use this for initialization
-	void Start () {
+	public Player () {
 
         RscCounter = new ResourceCounter();
 		Pieces = new List<Entity>();
@@ -27,11 +27,13 @@ public class Player
 
     public void AddPiece(Entity piece)
     {
+        Debug.Log(piece + "----" + Pieces);
         if (Pieces.Any(entity => piece == entity))
         {
             return;
         }
 
+        piece.Owner = this;
         Pieces.Add(piece);
     }
 

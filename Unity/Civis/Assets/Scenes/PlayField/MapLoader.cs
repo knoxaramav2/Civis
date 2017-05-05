@@ -27,7 +27,7 @@ public class MapLoader : MonoBehaviour
 	    _buildingManager = _state.GetComponent<BuildingManager>();
 	    _unitManager = _state.GetComponent<UnitManager>();
 
-	    _manifest = _dataShuttle.AddComponent<LoadInfoManifest>();
+	    _manifest = _dataShuttle.GetComponent<LoadInfoManifest>();
         
 
         _tileFactory = GetComponent<TileFactory>();
@@ -43,6 +43,7 @@ public class MapLoader : MonoBehaviour
     public void CreateMapFromMeta()
     {
         //generate base map
+        Debug.Log("Loading tiles");
         for (var x = 0; x < _map.Width; ++x)
         {
             for (var y = 0; y < _map.Length; ++y)
@@ -58,7 +59,6 @@ public class MapLoader : MonoBehaviour
                     var tile = _tileFactory.BuildTile(
                         x, y, z,
                         _session.TerrainMap[x][y]);
-                    _map.AddTile(tile);
                 }
             }
         }
@@ -66,13 +66,15 @@ public class MapLoader : MonoBehaviour
 
     public void ReadManifest()
     {
+        Debug.Log("Reading manifests orders: " + _manifest.Count());
         Order order = null;
         while ((order = _manifest.GetNextOrder()) != null)
         {
+            Debug.Log(order.Cmd);
             switch (order.Cmd)
             {
                 case Order.Instruction.Create:
-
+                    Create(order);
                     break;
                 case Order.Instruction.Focus:
 
@@ -86,6 +88,33 @@ public class MapLoader : MonoBehaviour
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+    }
+
+    public void Create(Order order)
+    {
+        switch (order.Type)
+        {
+            case Order.TargetType.Building:
+                var loc = order.Attributes.First(k => k.Key == Order.Keys.Location);
+
+                var coord = loc.Value.Split(',');
+
+                int x, y;
+                int.TryParse(coord[0], out x);
+                int.TryParse(coord[1], out y);
+
+                var cell = _map.GetTopCell(x, y);
+                Debug.Log(string.Format("Selected at {0} {1} {2}", cell.X, cell.Y, cell.Z));
+
+                _buildingManager.CreateBuilding(
+                    _session.GetPlayerById(order.OwnerId),
+                    "",
+                    cell
+                    
+                );
+
+                break;
         }
     }
 }
