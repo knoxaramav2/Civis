@@ -97,21 +97,22 @@ public class NewGame
             }
             );
 
-        InitPlayerAssets(_session.Players[0]);
+        _session.Current = _session.Players[0];
+        InitPlayerAssets(_session.Current);
 
         for (var i = 0; i < _session.MapAi; ++i)
         {
             _session.Players.Add(
                 new Player()
                 {
-                    UserName = "Player",
+                    UserName = "Player " + i,
                     UserId = Random.Range(0, int.MaxValue).ToString(),
                     IsHost = true,
                     Team = Race.Type.Cyborg,
                 }
             );
 
-            InitPlayerAssets(_session.Players[i-1]);
+            InitPlayerAssets(_session.Players[i + 1]);
 
 
         }

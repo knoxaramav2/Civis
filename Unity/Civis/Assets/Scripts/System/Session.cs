@@ -25,10 +25,15 @@ public class Session : MonoBehaviour
     //Game state
     public List<Player> Players;
 
+    public Player Current;
+
 	// Use this for initialization
 	void Start ()
 	{
+        if (gameObject.name == "devplate") DontDestroyOnLoad(gameObject);
+
         Players = new List<Player>();
+	    Current = null;
 
 	    HeightComplexity = 0.055f;
 	    TerrainComplexity = 0.055f;

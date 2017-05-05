@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Scripts.System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -77,7 +78,7 @@ public class MapLoader : MonoBehaviour
                     Create(order);
                     break;
                 case Order.Instruction.Focus:
-
+                    Focus(order);
                     break;
                 case Order.Instruction.Move:
                     break;
@@ -115,6 +116,16 @@ public class MapLoader : MonoBehaviour
                 );
 
                 break;
+        }
+    }
+
+    public void Focus(Order order)
+    {
+        foreach (var e in _session.Current.Pieces)
+        {
+            if (!(e is Building)) continue;
+
+            CameraControl.ZoomTo();
         }
     }
 }
