@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Assets.Scripts.System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -16,6 +15,7 @@ public class MapLoader : MonoBehaviour
     private LoadInfoManifest _manifest;
     private BuildingManager _buildingManager;
     private UnitManager _unitManager;
+    private CameraControl _camControl;
 
 	// Use this for initialization
 	void Start ()
@@ -27,6 +27,7 @@ public class MapLoader : MonoBehaviour
 	    _map.HeightMap = _session.HeightMap;
 	    _buildingManager = _state.GetComponent<BuildingManager>();
 	    _unitManager = _state.GetComponent<UnitManager>();
+	    _camControl = Camera.main.GetComponent<CameraControl>();
 
 	    _manifest = _dataShuttle.GetComponent<LoadInfoManifest>();
         
@@ -106,7 +107,6 @@ public class MapLoader : MonoBehaviour
                 int.TryParse(coord[1], out y);
 
                 var cell = _map.GetTopCell(x, y);
-                Debug.Log(string.Format("Selected at {0} {1} {2}", cell.X, cell.Y, cell.Z));
 
                 _buildingManager.CreateBuilding(
                     _session.GetPlayerById(order.OwnerId),
@@ -125,7 +125,11 @@ public class MapLoader : MonoBehaviour
         {
             if (!(e is Building)) continue;
 
-            CameraControl.ZoomTo();
+            if (e.gameObject == null)
+                Debug.Log("Wut");
+
+            _camControl.SnapTo(e.gameObject);
+            break;
         }
     }
 }

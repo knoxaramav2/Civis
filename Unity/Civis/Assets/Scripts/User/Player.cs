@@ -27,7 +27,6 @@ public class Player
 
     public void AddPiece(Entity piece)
     {
-        Debug.Log(piece + "----" + Pieces);
         if (Pieces.Any(entity => piece == entity))
         {
             return;

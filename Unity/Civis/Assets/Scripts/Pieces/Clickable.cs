@@ -2,21 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Clickable : MonoBehaviour {
+public class Clickable : MonoBehaviour
+{
 
-    void Start()
-    {
-        
-    }
+    private static Session _session;
 
     public virtual void OnSelect()
     {
-        Debug.Log("Click");
+        if (_session == null)
+            _session = GameObject.FindGameObjectWithTag("TempState")
+                .GetComponent<Session>();
+
+        if ((this as Entity).Owner != _session.Current) return;
+
+        Camera.main.GetComponent<CameraControl>().SnapTo(gameObject);
     }
 
     public virtual void OnDeSelect()
     {
-        Debug.Log("UnClick");
+        
     }
 
     public virtual void OnMiddleSelect()
