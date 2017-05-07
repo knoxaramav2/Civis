@@ -2,15 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Settings : MonoBehaviour {
+public class Settings : MonoBehaviour
+{
+    //options
+    public bool AutoSave;
+    public int AutoSaveInterval;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public bool ShowTurnOverlay;
+    public bool CameraBlur;
 }

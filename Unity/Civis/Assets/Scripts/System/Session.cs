@@ -19,6 +19,11 @@ public class Session : MonoBehaviour
     public float HeightComplexity;
     public float TerrainComplexity;
 
+    //Options
+    public bool DayNightCycle;
+    public bool Weather;
+    public bool SpecialEvents;
+
     public Tile.Terrain[][] TerrainMap;
     public int[][] HeightMap;
 

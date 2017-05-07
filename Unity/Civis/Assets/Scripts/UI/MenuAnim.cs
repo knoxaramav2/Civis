@@ -31,6 +31,7 @@ public class MenuAnim : MonoBehaviour
 
     public void SwitchTo(string menu)
     {
+        Debug.Log(menu);
         foreach (var panel in _panels)
         {
             if (!panel.name.Equals(menu)) continue;
