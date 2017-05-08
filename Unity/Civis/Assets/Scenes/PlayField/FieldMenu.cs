@@ -10,6 +10,7 @@ public class FieldMenu : MonoBehaviour
     public GameObject Indicator;
     public GameObject ViewMenu;
     public GameObject ActionPanel;
+    public GameObject ActionMenu;
 
     private Button _actionButton;
 
@@ -17,8 +18,9 @@ public class FieldMenu : MonoBehaviour
 	void Start () {
 		ViewMenu.SetActive(false);
         MenuPanel.SetActive(false);
+        ActionMenu.SetActive(false);
 
-	    _actionButton.GetComponentInChildren<Button>();
+	    _actionButton = ActionPanel.GetComponentInChildren<Button>();
 	}
 
     //Menu Options
@@ -71,6 +73,27 @@ public class FieldMenu : MonoBehaviour
     public void ActionButtonPressed()
     {
         
+    }
+
+    //Action Panel Options
+    public void ShowActionMenu()
+    {
+        
+    }
+
+    public void HideActionMenu()
+    {
+        
+    }
+
+    public void AddActionButton()
+    {
+        
+    }
+
+    public void TriggerActionButton(string msg)
+    {
+        //var tb = new Button(msg);
     }
 
     //Quit Options

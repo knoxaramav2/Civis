@@ -13,9 +13,10 @@ public class Clickable : MonoBehaviour
             _session = GameObject.FindGameObjectWithTag("TempState")
                 .GetComponent<Session>();
 
-        if ((this as Entity).Owner != _session.Current) return;
+        var entity = this as Entity;
+        if (entity != null && entity.Owner != _session.Current) return;
 
-        Camera.main.GetComponent<CameraControl>().SnapTo(gameObject);
+        Camera.main.GetComponent<CameraControl>().ZoomTo(gameObject);
     }
 
     public virtual void OnDeSelect()

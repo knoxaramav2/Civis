@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -22,6 +23,9 @@ public class Resolver : MonoBehaviour
 	    _manifest = _dataShuttle.AddComponent<LoadInfoManifest>();
 
         _map.Init();
+
+	    _text.text = "Loading Game Assets";
+        LoadAssets();
 
 	    if (_session.IsNewGame)
 	    {
@@ -50,5 +54,11 @@ public class Resolver : MonoBehaviour
     private void AssembleMapData()
     {
         
+    }
+
+    private void LoadAssets()
+    {
+        Faction.Init();
+        Faction.LoadFactionInfo();
     }
 }

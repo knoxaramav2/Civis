@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Building : Entity {
-
+public class Building : Entity
+{
 	// Use this for initialization
 	void Start () {
 		
