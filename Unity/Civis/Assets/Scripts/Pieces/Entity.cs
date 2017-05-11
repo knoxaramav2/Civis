@@ -11,6 +11,12 @@ public class Entity : Clickable
     public Cell Location;
     public Player Owner;
 
+    public void Start()
+    {
+        base.Start();
+        Debug.Log("Entity up in here");
+    }
+
     public void Destroy()
     {
         Location.Target.DecoupleEntity(this);

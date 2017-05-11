@@ -10,7 +10,6 @@ public class FieldMenu : MonoBehaviour
     public GameObject Indicator;
     public GameObject ViewMenu;
     public GameObject ActionPanel;
-    public GameObject ActionMenu;
 
     private Button _actionButton;
 
@@ -18,7 +17,6 @@ public class FieldMenu : MonoBehaviour
 	void Start () {
 		ViewMenu.SetActive(false);
         MenuPanel.SetActive(false);
-        ActionMenu.SetActive(false);
 
 	    _actionButton = ActionPanel.GetComponentInChildren<Button>();
 	}

@@ -12,6 +12,11 @@ public class Actor : Entity
     public int Level;
     public int LevelUpExp;
 
+    public void Start()
+    {
+        base.Start();
+    }
+
     public Actor(ActorSheet sheet)
     {
         _sheet = sheet;

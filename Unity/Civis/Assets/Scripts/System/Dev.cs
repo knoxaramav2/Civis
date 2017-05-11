@@ -8,6 +8,7 @@ public class Dev : MonoBehaviour
     public CameraControl control;
     public GameObject target;
     public GameObject DevPanel;
+    public GameObject Canvas;
 
     // Use this for initialization
     void Start ()
@@ -19,34 +20,24 @@ public class Dev : MonoBehaviour
 
 	    tstate.AddComponent<Session>();
 
-        AddButton("hi");
-        AddButton("not hi");
-	}
+	    var menu = CustomMenu.CreateCustomMenu(Canvas, 300, 300, 300);
+	    menu.name = "DevPanel";
+
+	    menu.AddButton("msg1", () => DoStuff("hi"));
+	    menu.AddButton("msg2", () => DoStuff("lo"));
+	    menu.AddButton("Close", () => menu.Hide());
+
+        menu.Show();
+    }
 	
 	// Update is called once per frame
 	void Update () {
 		
 	}
 
-    public void AddButton(string msg)
-    {
-        var Front = new GameObject();
-        Front.transform.SetParent(DevPanel.transform);
-        var img = Front.AddComponent<Image>();
-        img.rectTransform.sizeDelta = new Vector2(60, 30);
-        img.sprite = Resources.Load("UISprite") as Sprite;
-        var btn = Front.AddComponent<Button>();
-        var label = new GameObject();
-        label.transform.SetParent(Front.transform);
-        var lbl = label.AddComponent<Text>();
-        lbl.text = msg;
-        lbl.color = Color.black;
-        lbl.font = Resources.Load("Arial") as Font;
-        btn.onClick.AddListener(() => { DoStuff(msg); });
-    }
-
     public void DoStuff(string msg)
     {
+        Debug.Log(">> " + msg);
         switch (msg)
         {
             case "hi": Debug.Log("hi");
