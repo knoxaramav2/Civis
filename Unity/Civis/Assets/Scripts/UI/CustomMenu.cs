@@ -7,12 +7,15 @@ using UnityEngine.UI;
 
 public class CustomMenu : MonoBehaviour
 {
+    public GameObject TargetPanel; 
     public List<Button> Controls = new List<Button>();
+
+    private RectTransform rect;
 
     // Use this for initialization
     void Start()
     {
-        
+        rect = TargetPanel.GetComponent<RectTransform>();
     }
 
     public Button AddButton(string msg, UnityAction cb)
@@ -22,16 +25,13 @@ public class CustomMenu : MonoBehaviour
         var btn = gm.AddComponent<Button>();
         var text = label.AddComponent<Text>();
         var img = gm.AddComponent<Image>();
-        var rPanel = (transform as RectTransform).sizeDelta;
-
-        //gm.AddComponent<RectTransform>();
-        //label.AddComponent<RectTransform>();
+        var rPanel = rect.sizeDelta;
 
         Controls.Add(btn);
         gm.name = "Control " + Controls.Count;
         label.name = "Label";
 
-        gm.transform.SetParent(transform);
+        gm.transform.SetParent(TargetPanel.transform);
         label.transform.SetParent(gm.transform);
 
         gm.GetComponent<Image>().sprite = AssetDatabase.LoadAssetAtPath<Sprite>("Resources/unity_builtin_extra/UISprite.psd");
@@ -56,37 +56,32 @@ public class CustomMenu : MonoBehaviour
 
     public void Move(float x, float y)
     {
-        transform.position = new Vector3(Screen.width/2f+x, Screen.height/2f+y, 0);
+        TargetPanel.transform.position = new Vector3(Screen.width/2f+x, Screen.height/2f+y, 0);
     }
 
     public void Show()
     {
-        gameObject.SetActive(true);
+        TargetPanel.SetActive(true);
 
-        var rPanel = transform as RectTransform;
-        rPanel.sizeDelta = new Vector2(rPanel.sizeDelta.x, (35 * Controls.Count) + 50);
+        rect.sizeDelta = new Vector2(rect.sizeDelta.x, (35 * Controls.Count) + 50);
 
         foreach(var ctrl in Controls)
         {
             var btn = ctrl.GetComponent<Button>();
 
-            var offset = (transform.position.y + rPanel.sizeDelta.y / 2) - 25;
-            var deltay = (rPanel.sizeDelta.y / Controls.Count);
+            var offset = (TargetPanel.transform.position.y + rect.sizeDelta.y / 2) - 25;
+            var deltay = (rect.sizeDelta.y / Controls.Count);
 
             ctrl.transform.position = new Vector3(
-                transform.position.x,
+                TargetPanel.transform.position.x,
                 offset - Controls.IndexOf(ctrl) * deltay);   
         }
     }
 
     public void Hide()
     {
-        gameObject.SetActive(false);
-    }
-
-    public void Destroy()
-    {
-        Destroy(this);
+        Controls.Clear();
+        TargetPanel.SetActive(false);
     }
 	
     public static CustomMenu CreateCustomMenu(GameObject parent, int xOff, int yOff, float width)
