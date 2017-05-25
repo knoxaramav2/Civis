@@ -11,7 +11,7 @@ public class Entity : Clickable
     public Cell Location;
     public Player Owner;
 
-    public void Start()
+    public new void Start()
     {
         base.Start();
     }

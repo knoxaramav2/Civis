@@ -13,7 +13,7 @@ public class Clickable : MonoBehaviour
         Menu = GameObject.FindGameObjectWithTag("State").GetComponent<CustomMenu>();
     }
 
-    public virtual void OnSelect()
+    public virtual void OnSelect(SelectController sc = null)
     {
         if (_session == null)
             _session = GameObject.FindGameObjectWithTag("TempState")

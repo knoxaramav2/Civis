@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MouseController : MonoBehaviour
 {
+    public SelectController _scontrol;
 
     private GameObject _selected;
     private GameObject _hovered;
@@ -28,10 +29,10 @@ public class MouseController : MonoBehaviour
 	{
 	    if (_disableClicking) return;
 
-	    Clickable newSelect = null, oldSelect = null;
-	    oldSelect = _selected == null ? null : _selected.GetComponent<Clickable>();
+	    //Clickable newSelect = null, oldSelect = null;
+	    //oldSelect = _selected == null ? null : _selected.GetComponent<Clickable>();
 
-        var hitInfo = new RaycastHit();
+        RaycastHit hitInfo;
 	    var hit = Physics.Raycast(
 	        Camera.main.ScreenPointToRay(Input.mousePosition),
             out hitInfo);
@@ -39,20 +40,22 @@ public class MouseController : MonoBehaviour
 	    if (!hit) return;
 	    
 	    var target = hitInfo.transform.gameObject;
-	    
-	    newSelect = target.GetComponent<Clickable>();
 
-        if ((_hovered != target) && (_selected != target))
-	    {
-            if (_hovered != null && _hovered != _selected)
-	            _hovered.GetComponent<Renderer>().material.shader = BaseShader;
-	        _hovered = target;
-            _hovered.GetComponent<Renderer>().material.shader = HoverShader;
-	    }
+        _scontrol.Hover(target);
+	    
+	    //newSelect = target.GetComponent<Clickable>();
+
+     //   if ((_hovered != target) && (_selected != target))
+	    //{
+     //       if (_hovered != null && _hovered != _selected)
+	    //        _hovered.GetComponent<Renderer>().material.shader = BaseShader;
+	    //    _hovered = target;
+     //       _hovered.GetComponent<Renderer>().material.shader = HoverShader;
+	    //}
 
 	    if (Input.GetMouseButtonDown(0))
 	    {
-            Select(target);
+            _scontrol.Select(target);
 	    }
 	}
 
@@ -71,10 +74,10 @@ public class MouseController : MonoBehaviour
         return _hovered;
     }
 
-    public void SetSelectedObject(GameObject gm)
-    {
-        Select(gm);
-    }
+    //public void SetSelectedObject(GameObject gm)
+    //{
+    //    Select(gm);
+    //}
 
     private void DeSelect()
     {
@@ -88,7 +91,7 @@ public class MouseController : MonoBehaviour
         _selected = null;
     }
 
-    private void Select(GameObject gm)
+    /*private void Select(GameObject gm)
     {
         if (gm == _selected || gm == null)
         {
@@ -105,5 +108,5 @@ public class MouseController : MonoBehaviour
             newSelect.OnSelect();
         _selected.GetComponent<Renderer>().material.shader = SelectShader;
 
-    }
+    }*/
 }

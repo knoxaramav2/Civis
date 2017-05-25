@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -46,7 +47,9 @@ public class Map : MonoBehaviour
 
     public int GetColumnHeight(int x, int y)
     {
-        return HeightMap[x][y];
+        return IsOutOfBounds(x,y) ?
+            0 :
+            HeightMap[x][y];
     }
 
     public Tile GetTopTile(int x, int y)
@@ -59,30 +62,81 @@ public class Map : MonoBehaviour
         return _matrix[x][y][GetColumnHeight(x, y)];
     }
 
-    public List <Cell> GetAdjacentCells(Tile tile)
+    public int GetHeightDiff(int x1, int y1, int x2, int y2)
     {
-        return GetAdjacentCells(tile.X, tile.Y);
+        var h1 = GetColumnHeight(x1, y1);
+        var h2 = GetColumnHeight(x2, y2);
+        return h2 - h1;
     }
 
-    public List<Cell> GetAdjacentCells(int x, int y)
+    public List <Cell> GetAdjacentCells(Tile tile, int rad=1, bool ele=false)
+    {
+        return GetAdjacentCells(tile.X, tile.Y, rad);
+    }
+
+    public List<Cell> GetAdjacentCells(int x, int y, int rad=1, bool ele=false)
     {
         var list = new List<Cell>();
 
-        var ctl = Tile.GetAdjacentCoord(x, y, Tile.Edge.TopLeft);
-        var ctr = Tile.GetAdjacentCoord(x, y, Tile.Edge.TopRight);
-        var cl = Tile.GetAdjacentCoord(x, y, Tile.Edge.Left);
-        var cr = Tile.GetAdjacentCoord(x, y, Tile.Edge.Right);
-        var cbl = Tile.GetAdjacentCoord(x, y, Tile.Edge.BottomLeft);
-        var cbr = Tile.GetAdjacentCoord(x, y, Tile.Edge.BottomRight);
+        //var ctl = Tile.GetAdjacentCoord(x, y, Tile.Edge.TopLeft);
+        //var ctr = Tile.GetAdjacentCoord(x, y, Tile.Edge.TopRight);
+        //var cl = Tile.GetAdjacentCoord(x, y, Tile.Edge.Left);
+        //var cr = Tile.GetAdjacentCoord(x, y, Tile.Edge.Right);
+        //var cbl = Tile.GetAdjacentCoord(x, y, Tile.Edge.BottomLeft);
+        //var cbr = Tile.GetAdjacentCoord(x, y, Tile.Edge.BottomRight);
 
-        if (ctl != null) list.Add(GetTopCell(ctl[0], ctl[1]));
-        if (ctr != null) list.Add(GetTopCell(ctr[0], ctr[1]));
-        if (cl != null) list.Add(GetTopCell(cl[0], cl[1]));
-        if (cr != null) list.Add(GetTopCell(cr[0], cr[1]));
-        if (cbl != null) list.Add(GetTopCell(cbl[0], cbl[1]));
-        if (cbr != null) list.Add(GetTopCell(cbr[0], cbr[1]));
+        //if (ctl != null) list.Add(GetTopCell(ctl[0], ctl[1]));
+        //if (ctr != null) list.Add(GetTopCell(ctr[0], ctr[1]));
+        //if (cl != null) list.Add(GetTopCell(cl[0], cl[1]));
+        //if (cr != null) list.Add(GetTopCell(cr[0], cr[1]));
+        //if (cbl != null) list.Add(GetTopCell(cbl[0], cbl[1]));
+        //if (cbr != null) list.Add(GetTopCell(cbr[0], cbr[1]));
+
+        var origin = GetTopCell(x, y);
+        var current = origin;
+
+        var prvEdge = Tile.Edge.TopLeft;
+
+        //append if new level, transfer if current
+
+        for (var n = 0; n < rad; ++n)
+        {
+            //transfer every (n+3)(n>0)
+            //rotate every n+1
+            var index = 0;
+            do
+            {
+                var target = GetAdjacentCell(current.X, current.Y, prvEdge);
+                if (target != null) list.Add(target);
+
+                //rotate edge
+                if (index % (n + 1) == 0)
+                {
+                    prvEdge = GetRotatedEdge(prvEdge);
+                }
+
+                if ((index % (n + 3)) == 0 && (n > 0))
+                {
+                    current = GetAdjacentCell(current.X, current.Y, GetRotatedEdge(prvEdge));
+                }
+
+                ++index;
+            } while (current != origin && prvEdge != Tile.Edge.TopLeft);
+
+            origin = GetAdjacentCell(origin.X, origin.Y, Tile.Edge.TopLeft);
+
+        }
 
         return list;
+    }
+
+    public Cell GetAdjacentCell(int x, int y, Tile.Edge edge)
+    {
+        var coord = Tile.GetAdjacentCoord(x, y, edge);
+        if (coord == null) return null;
+        return IsOutOfBounds(coord[0], coord[1])
+            ? null 
+            : GetTopCell(coord[0], coord[1]);
     }
 
     public float GetAverageHeight(int x, int y)
@@ -92,6 +146,28 @@ public class Map : MonoBehaviour
         var avg = cells.Aggregate<Cell, float>(0, (current, cell) => current + cell.Z);
 
         return avg / cells.Count;
+    }
+
+    private bool IsOutOfBounds(int x, int y)
+    {
+        return (x<0 || y<0 || x > Width || y > Length);
+    }
+
+    private Tile.Edge GetRotatedEdge(Tile.Edge prvEdge)
+    {
+        switch (prvEdge)
+        {
+            case Tile.Edge.TopLeft: prvEdge = Tile.Edge.TopRight; break;
+            case Tile.Edge.TopRight: prvEdge = Tile.Edge.Right; break;
+            case Tile.Edge.Right: prvEdge = Tile.Edge.BottomRight; break;
+            case Tile.Edge.BottomRight: prvEdge = Tile.Edge.BottomLeft; break;
+            case Tile.Edge.BottomLeft: prvEdge = Tile.Edge.Left; break;
+            case Tile.Edge.Left: prvEdge = Tile.Edge.TopLeft; break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+
+        return prvEdge;
     }
 }
 

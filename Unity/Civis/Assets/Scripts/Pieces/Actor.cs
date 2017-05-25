@@ -12,7 +12,7 @@ public class Actor : Entity
     public int Level;
     public int LevelUpExp;
 
-    public void Start()
+    public new void Start()
     {
         base.Start();
     }

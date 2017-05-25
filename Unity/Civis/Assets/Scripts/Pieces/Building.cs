@@ -5,7 +5,7 @@ using UnityEngine;
 public class Building : Entity
 {
 	// Use this for initialization
-    public void Start()
+    public new void Start()
     {
         base.Start();
     }
@@ -15,9 +15,12 @@ public class Building : Entity
         Menu.Hide();
     }
 
-    public override void OnSelect()
+    public override void OnSelect(SelectController sc = null)
     {
-        base.OnSelect();
+        base.OnSelect(sc);
+
+        if (sc)
+            sc.SelectRadius(1);
 
         Menu.Hide();
         Menu.AddButton("Spawn", SpawnUnit);
