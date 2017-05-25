@@ -38,10 +38,12 @@ public class BuildingManager : MonoBehaviour
     {
         var bld = Instantiate(Templates.ElementAt(0).Template);
         var b = bld.GetComponent<Building>();
-        loc.Target.CoupleEntity(b);
-        p.AddPiece(b);
+        b.CoupleToCell(loc);
+        b.CoupleToPlayer(p);
+        //loc.Target.CoupleEntity(b);
+        //p.AddPiece(b);
 
-        bld.transform.position = loc.Target.GetSurfaceCoord();
+        
 
         return b;
 

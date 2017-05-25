@@ -8,25 +8,32 @@ public class SelectController : MonoBehaviour {
     private GameObject _hovered;
     private GameObject _highlited;
 
-    public Map Map;
+    private Map _map;
 
     public Shader SelectShader;
     public Shader BaseShader;
     public Shader HoverShader;
     public Shader HighlightShader;//TODO Hover shader
 
-    private bool _disableClicking;
+    private bool _disabled;
 
     // Use this for initialization
     void Start ()
     {
+        Debug.Log("Init Select");
+
         _selected = null;
         _hovered = null;
+
+        _map = GameObject.FindGameObjectWithTag("TempState")
+            .GetComponent<Map>();
+
+        Debug.Log(_map);
     }
 
     public void Hover(GameObject obj)
     {
-        if (obj == _hovered) return;
+        if (obj == _hovered || _disabled) return;
 
         if (_hovered != _selected)
             SetShader(_hovered, BaseShader);
@@ -39,6 +46,8 @@ public class SelectController : MonoBehaviour {
 
     public void Select(GameObject obj)
     {
+        if (_disabled) return;
+
         Deselect();
 
         if (obj != _selected && _selected != null)
@@ -47,6 +56,10 @@ public class SelectController : MonoBehaviour {
         SetShader(obj, SelectShader);
 
         _selected = obj;
+
+        var entity = _selected.GetComponent<Entity>();
+        if (entity == null) return;
+        entity.OnSelect(this);
     }
 
     public void Deselect()
@@ -64,13 +77,13 @@ public class SelectController : MonoBehaviour {
     public void SelectRadius(int radius)
     {
         var ent = _selected.GetComponent<Entity>();
-        Map.GetAdjacentCells(ent.Location.Target, 
+        _map.GetAdjacentCells(ent.Location.Target, 
             radius, true);
     }
 
     public void SetInteract(bool enable)
     {
-        _disableClicking = !enable;
+        _disabled = !enable;
     }
 
     private void SetShader(GameObject obj, Shader shader)

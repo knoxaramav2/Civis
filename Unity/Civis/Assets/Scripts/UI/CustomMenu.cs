@@ -78,10 +78,12 @@ public class CustomMenu : MonoBehaviour
         }
     }
 
-    public void Hide()
+    public void Hide(SelectController sc = null)
     {
         Controls.Clear();
         TargetPanel.SetActive(false);
+
+        if (sc != null) sc.SetInteract(true);
     }
 	
     public static CustomMenu CreateCustomMenu(GameObject parent, int xOff, int yOff, float width)

@@ -20,11 +20,15 @@ public class Building : Entity
         base.OnSelect(sc);
 
         if (sc)
+        {
             sc.SelectRadius(1);
+            sc.SetInteract(false);
+        }
+            
 
         Menu.Hide();
         Menu.AddButton("Spawn", SpawnUnit);
-        Menu.AddButton("Close", () => { Menu.Hide(); });
+        Menu.AddButton("Close", () => { Menu.Hide(sc); });
         Menu.Move(0, 0);
         Menu.Show();
     }

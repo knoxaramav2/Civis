@@ -42,16 +42,6 @@ public class MouseController : MonoBehaviour
 	    var target = hitInfo.transform.gameObject;
 
         _scontrol.Hover(target);
-	    
-	    //newSelect = target.GetComponent<Clickable>();
-
-     //   if ((_hovered != target) && (_selected != target))
-	    //{
-     //       if (_hovered != null && _hovered != _selected)
-	    //        _hovered.GetComponent<Renderer>().material.shader = BaseShader;
-	    //    _hovered = target;
-     //       _hovered.GetComponent<Renderer>().material.shader = HoverShader;
-	    //}
 
 	    if (Input.GetMouseButtonDown(0))
 	    {

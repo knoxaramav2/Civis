@@ -16,6 +16,18 @@ public class Entity : Clickable
         base.Start();
     }
 
+    public void CoupleToCell(Cell loc)
+    {
+        loc.Target.CoupleEntity(this);
+        Location = loc;
+        transform.position = loc.Target.GetSurfaceCoord();
+    }
+
+    public void CoupleToPlayer(Player plr)
+    {
+        plr.AddPiece(this);
+    }
+
     public void Destroy()
     {
         Location.Target.DecoupleEntity(this);
