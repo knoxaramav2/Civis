@@ -83,7 +83,9 @@ public class CustomMenu : MonoBehaviour
         Controls.Clear();
         TargetPanel.SetActive(false);
 
-        if (sc != null) sc.SetInteract(true);
+        if (sc == null) return;
+        sc.SetInteract(true);
+        sc.Deselect();
     }
 	
     public static CustomMenu CreateCustomMenu(GameObject parent, int xOff, int yOff, float width)

@@ -74,6 +74,9 @@ public class NewGame
                 avg += _map.GetColumnHeight(x, y);
                 avg /= cells.Count + 1;
                 _map.HeightMap[x][y] = (int)Mathf.Ceil(avg);
+                //Debug.Log(x + ":" + y);
+                //var arrmin = cells.Min(c => c.Z);
+                //_map.HeightMap[x][y] = Mathf.Min(arrmin, _map.HeightMap[x][y]);
             }
         }
     }

@@ -22,7 +22,9 @@ public class Map : MonoBehaviour
 
         Width = _session.MapWidth;
         Height = _session.MapHeight;
-        Length = _session.MapLength; 
+        Length = _session.MapLength;
+
+        Tile.Init(Width, Height);
 
         //initialize map memory
         _matrix = new Cell[Width][][];
@@ -78,20 +80,6 @@ public class Map : MonoBehaviour
     {
         var list = new List<Cell>();
 
-        //var ctl = Tile.GetAdjacentCoord(x, y, Tile.Edge.TopLeft);
-        //var ctr = Tile.GetAdjacentCoord(x, y, Tile.Edge.TopRight);
-        //var cl = Tile.GetAdjacentCoord(x, y, Tile.Edge.Left);
-        //var cr = Tile.GetAdjacentCoord(x, y, Tile.Edge.Right);
-        //var cbl = Tile.GetAdjacentCoord(x, y, Tile.Edge.BottomLeft);
-        //var cbr = Tile.GetAdjacentCoord(x, y, Tile.Edge.BottomRight);
-
-        //if (ctl != null) list.Add(GetTopCell(ctl[0], ctl[1]));
-        //if (ctr != null) list.Add(GetTopCell(ctr[0], ctr[1]));
-        //if (cl != null) list.Add(GetTopCell(cl[0], cl[1]));
-        //if (cr != null) list.Add(GetTopCell(cr[0], cr[1]));
-        //if (cbl != null) list.Add(GetTopCell(cbl[0], cbl[1]));
-        //if (cbr != null) list.Add(GetTopCell(cbr[0], cbr[1]));
-
         var origin = GetTopCell(x, y);
         var current = origin;
 
@@ -117,11 +105,12 @@ public class Map : MonoBehaviour
 
                 if ((index % (n + 3)) == 0 && (n > 0))
                 {
+
                     current = GetAdjacentCell(current.X, current.Y, GetRotatedEdge(prvEdge));
                 }
 
                 ++index;
-            } while (current != origin && prvEdge != Tile.Edge.TopLeft);
+            } while (current != origin || prvEdge != Tile.Edge.TopLeft);
 
             origin = GetAdjacentCell(origin.X, origin.Y, Tile.Edge.TopLeft);
 
