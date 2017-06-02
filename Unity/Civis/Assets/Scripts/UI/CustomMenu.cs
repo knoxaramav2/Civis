@@ -84,7 +84,7 @@ public class CustomMenu : MonoBehaviour
         TargetPanel.SetActive(false);
 
         if (sc == null) return;
-        sc.SetInteract(true);
+        sc.SetInteract(SelectController.SelectMode.Normal);
         sc.Deselect();
     }
 	

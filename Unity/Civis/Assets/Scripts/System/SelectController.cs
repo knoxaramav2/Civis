@@ -7,16 +7,28 @@ public class SelectController : MonoBehaviour {
 
     private GameObject _selected;
     private GameObject _hovered;
+    private GameObject _lastHovered;
     private GameObject [] _highlighted;
 
     private Map _map;
 
+    private Color _hovSelTemp;
+
+    public Color HovSelColor;
     public Shader SelectShader;
     public Shader BaseShader;
     public Shader HoverShader;
     public Shader HighlightShader;//TODO Hover shader
 
-    private bool _disabled;
+    //private bool _disabled;
+    private SelectMode _selectMode;
+
+    public enum SelectMode
+    {
+        Normal,
+        Highlight,
+        GuiOnly
+    }
 
     // Use this for initialization
     void Start ()
@@ -29,11 +41,13 @@ public class SelectController : MonoBehaviour {
 
         _map = GameObject.FindGameObjectWithTag("TempState")
             .GetComponent<Map>();
+
+        _selectMode = SelectMode.Normal;
     }
 
     public void Hover(GameObject obj)
     {
-        if (obj == _hovered || _disabled) return;
+        if (obj == _hovered || _selectMode == SelectMode.GuiOnly) return;
 
         if (_hovered != _selected)
             SetShader(_hovered, BaseShader);
@@ -41,12 +55,28 @@ public class SelectController : MonoBehaviour {
         if (obj != _selected)
             SetShader(obj, HoverShader);
 
+        if (_highlighted != null)
+        {
+            if (_highlighted.Contains(obj))
+            {
+                _hovSelTemp = GetColor(obj);
+                SetColor(obj, HovSelColor);
+            }
+
+            if (obj != _lastHovered)
+            {
+                SetColor(_lastHovered, _hovSelTemp);
+                _lastHovered = _hovered;
+            }
+        }
+
+        
         _hovered = obj;
     }
 
     public void Select(GameObject obj)
     {
-        if (_disabled) return;
+        if (_selectMode == SelectMode.GuiOnly) return;
 
         Deselect();
 
@@ -99,14 +129,25 @@ public class SelectController : MonoBehaviour {
         _highlighted = cells.Select(o => o.Target.gameObject).ToArray();
     }
 
-    public void SetInteract(bool enable)
+    public void SetInteract(SelectMode mode)
     {
-        _disabled = !enable;
+        _selectMode = mode;
     }
 
     private void SetShader(GameObject obj, Shader shader)
     {
         obj.GetComponent<Renderer>().material.shader = shader;
+    }
+
+    private void SetColor(GameObject obj, Color color)
+    {
+        if (obj == null) return;
+        obj.GetComponent<Renderer>().material.color = color;
+    }
+
+    private Color GetColor(GameObject obj)
+    {
+        return obj.GetComponent<Renderer>().material.color;
     }
 
     private Shader GetShader(GameObject obj)
